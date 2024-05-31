@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de tareas de Melisa</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> 
+  <style>
+    .completed {
+      text-decoration: line-through;
+      color: pink;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Melisa!! No te olvides de: </h1>
+    <div class="input-group mb-3">
+      <input type="text" id="newTaskInput" class="form-control" placeholder="Nueva tarea">
+      <div class="input-group-append">
+        <button class="btn btn-primary" id="addTaskBtn">Otra cosa más! :(</button>
+      </div>
+    </div>
+    <ul class="list-group" id="taskList"></ul>
+  </div>
+
+  <script>
+    document.getElementById('addTaskBtn').addEventListener('click', addTask);
+
+    function addTask() {
+      const taskInput = document.getElementById('newTaskInput');
+      const taskText = taskInput.value.trim();
+
+      if (taskText === '') {
+        alert('Agregá una tarea, no tenés nada que hacer?');
+        return;
+      }
+
+      const taskList = document.getElementById('taskList');
+
+      const listItem = document.createElement('li');
+      listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+
+      const taskSpan = document.createElement('span');
+      taskSpan.textContent = taskText;
+
+      const buttonGroup = document.createElement('div');
+
+      const completeBtn = document.createElement('button');
+      completeBtn.className = 'btn btn-success btn-sm mr-2';
+      completeBtn.textContent = 'Ya está hecha! :)';
+      completeBtn.addEventListener('click', () => {
+        taskSpan.classList.toggle('completed');
+      });
+
+      const editBtn = document.createElement('button');
+      editBtn.className = 'btn btn-warning btn-sm mr-2';
+      editBtn.textContent = 'Editar';
+      editBtn.addEventListener('click', () => {
+        const newTaskText = prompt('Edita la tarea:', taskSpan.textContent);
+        if (newTaskText !== null) {
+          taskSpan.textContent = newTaskText.trim();
+        }
+      });
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'btn btn-danger btn-sm';
+      deleteBtn.textContent = 'Eliminar';
+      deleteBtn.addEventListener('click', () => {
+        taskList.removeChild(listItem);
+      });
+
+      buttonGroup.appendChild(completeBtn);
+      buttonGroup.appendChild(editBtn);
+      buttonGroup.appendChild(deleteBtn);
+
+      listItem.appendChild(taskSpan);
+      listItem.appendChild(buttonGroup);
+
+      taskList.appendChild(listItem);
+
+      taskInput.value = '';
+    }
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
